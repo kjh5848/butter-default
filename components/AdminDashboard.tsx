@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { SectionContainer, Button } from './ui/Common';
-import { BufferService, BufferProfile, BufferUpdate } from '../services/buffer';
+import { BufferService } from '../services/buffer';
+import type { BufferProfile, BufferUpdate } from '../shared/buffer/types';
 import { Settings, Send, User, CheckCircle, RefreshCw, History, ExternalLink, Calendar, Clock, BarChart2, Image as ImageIcon, Link as LinkIcon, X, Type } from 'lucide-react';
 
 const AdminDashboard: React.FC = () => {

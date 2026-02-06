@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { SectionContainer, Button } from './ui/Common';
-import { BufferService, BufferProfile, BufferUpdate } from '../services/buffer';
+import { BufferService } from '../services/buffer';
+import type { BufferProfile, BufferUpdate } from '../shared/buffer/types';
 import { Settings, Send, User, CheckCircle, RefreshCw, History, ExternalLink, Calendar, Clock, BarChart2, Image as ImageIcon, Link as LinkIcon, Type } from 'lucide-react';
 
 const BufferDashboard: React.FC = () => {
@@ -42,13 +43,13 @@ const BufferDashboard: React.FC = () => {
   const fetchProfiles = async (service: BufferService) => {
     setStatus('loading');
     try {
-      try {
-        const data = await service.getProfiles();
-        setProfiles(data);
-        setStatus('idle');
-        setMessage('');
-      } catch (e) {
-        console.warn("Falling back to mock data for demo due to API error/CORS");
+      const data = await service.getProfiles();
+      setProfiles(data);
+      setStatus('idle');
+      setMessage('');
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.warn("Falling back to mock data for demo due to API error.");
         setProfiles([
             { 
               id: '1', 
@@ -82,10 +83,10 @@ const BufferDashboard: React.FC = () => {
             }
         ]);
         setStatus('idle');
+      } else {
+        setStatus('error');
+        setMessage('Failed to load profiles. Check your token or worker configuration.');
       }
-    } catch (error) {
-      setStatus('error');
-      setMessage('Failed to load profiles.');
     }
   };
 
@@ -98,21 +99,25 @@ const BufferDashboard: React.FC = () => {
 
     try {
         await Promise.all(selectedProfiles.map(async (profileId) => {
-            try {
-                let response;
-                if (activeTab === 'history') {
-                    response = await bufferService.getSentUpdates(profileId);
-                } else {
-                    response = await bufferService.getPendingUpdates(profileId);
-                }
-                
-                newData[profileId] = response.updates;
-            } catch (e) {
-                // Mock data fallback
-                console.warn(`Could not fetch ${activeTab} for ${profileId}, using mock data.`);
-                const mockUpdates: BufferUpdate[] = activeTab === 'history' ? [
+            let response;
+            if (activeTab === 'history') {
+                response = await bufferService.getSentUpdates(profileId);
+            } else {
+                response = await bufferService.getPendingUpdates(profileId);
+            }
+            
+            newData[profileId] = response.updates;
+        }));
+        setUpdatesData(newData);
+    } catch (error) {
+        if (import.meta.env.DEV) {
+            console.warn("Could not fetch updates, using mock data.");
+            const mockMap: Record<string, BufferUpdate[]> = {};
+            selectedProfiles.forEach((profileId, index) => {
+                const seed = `${Date.now()}-${index}`;
+                mockMap[profileId] = activeTab === 'history' ? [
                     {
-                        id: `mock-sent-${Date.now()}-1`,
+                        id: `mock-sent-${seed}`,
                         profile_id: profileId,
                         profile_service: 'twitter',
                         text: "Just released a new update for Antigravity! 🚀 #dev #ai",
@@ -128,7 +133,7 @@ const BufferDashboard: React.FC = () => {
                     }
                 ] : [
                      {
-                        id: `mock-pending-${Date.now()}-1`,
+                        id: `mock-pending-${seed}`,
                         profile_id: profileId,
                         profile_service: 'twitter',
                         text: "Upcoming: Deep dive into Agentic Workflows.",
@@ -141,12 +146,11 @@ const BufferDashboard: React.FC = () => {
                         media: { picture: "https://picsum.photos/seed/agentic/400/300" }
                     }
                 ];
-                newData[profileId] = mockUpdates;
-            }
-        }));
-        setUpdatesData(newData);
-    } catch (error) {
-        console.error("Error fetching updates", error);
+            });
+            setUpdatesData(mockMap);
+        } else {
+            console.error("Error fetching updates", error);
+        }
     } finally {
         setDataLoading(false);
     }
@@ -189,14 +193,19 @@ const BufferDashboard: React.FC = () => {
         
         if (activeTab !== 'compose') fetchUpdates();
     } catch (error) {
-        // Fallback for demo
-        setTimeout(() => {
-            setStatus('success');
-            setMessage('Demo: Post simulated successfully (API key required for real post)');
-            setPostContent('');
-            setMediaForm({ link: '', description: '', title: '', picture: '', thumbnail: '' });
-            setAttachmentType('none');
-        }, 1000);
+        if (import.meta.env.DEV) {
+            // Fallback for demo
+            setTimeout(() => {
+                setStatus('success');
+                setMessage('Demo: Post simulated successfully (API key required for real post)');
+                setPostContent('');
+                setMediaForm({ link: '', description: '', title: '', picture: '', thumbnail: '' });
+                setAttachmentType('none');
+            }, 1000);
+        } else {
+            setStatus('error');
+            setMessage('Failed to post update. Check your token or worker configuration.');
+        }
     }
   };
 
