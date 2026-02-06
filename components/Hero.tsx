@@ -1,8 +1,13 @@
+
 import React from 'react';
 import { ParticleCanvas, SectionContainer, TypedText, Button } from './ui/Common';
-import { Download, ArrowRight } from 'lucide-react';
+import { Rocket, ArrowRight } from 'lucide-react';
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  onStartPathfinder?: () => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onStartPathfinder }) => {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center pt-24 overflow-hidden">
       {/* Background Particles */}
@@ -32,15 +37,20 @@ const Hero: React.FC = () => {
           Google Antigravity is our agentic development platform, evolving the IDE into the agent-first era.
         </p>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons - Single Button for Pathfinder */}
         <div className="flex flex-col sm:flex-row items-center gap-4 animate-fade-in-up delay-300">
-          <Button variant="primary" icon={<Download className="w-5 h-5"/>}>
-            Download for MacOS
-          </Button>
-          <Button variant="secondary">
-            Explore use cases
+          <Button 
+            variant="primary" 
+            icon={<Rocket className="w-5 h-5"/>} 
+            onClick={onStartPathfinder}
+            className="pl-8 pr-8 py-4 text-lg shadow-xl shadow-blue-500/20 hover:shadow-blue-500/30 transform hover:-translate-y-1"
+          >
+            Start Business Plan (Early Stage)
           </Button>
         </div>
+        <p className="mt-4 text-sm text-gray-400 animate-fade-in delay-500">
+            Automated grant matching & business roadmap generation
+        </p>
       </SectionContainer>
     </section>
   );

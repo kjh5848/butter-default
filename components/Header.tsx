@@ -56,16 +56,28 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'home' }) => 
             }
           `}
         >
-          {/* Logo */}
-          <button 
-            onClick={() => handleNavClick('home')} 
-            className="flex items-center gap-2 z-50 focus:outline-none relative group pl-1"
-          >
-            <svg viewBox="0 0 24 24" className="w-6 h-6 text-gray-900 transition-transform group-hover:scale-110" fill="currentColor">
-               <path d="M12 2L2 19h20L12 2zm0 3.5L18.5 17h-13L12 5.5z"/>
-            </svg>
-            <span className="text-gray-900 font-semibold text-lg tracking-tight">Antigravity</span>
-          </button>
+          {/* Logo & Service Name */}
+          <div className="flex items-center gap-3 z-50">
+            <button 
+              onClick={() => handleNavClick('home')} 
+              className="flex items-center gap-2 focus:outline-none relative group pl-1"
+            >
+              <svg viewBox="0 0 24 24" className="w-6 h-6 text-gray-900 transition-transform group-hover:scale-110" fill="currentColor">
+                 <path d="M12 2L2 19h20L12 2zm0 3.5L18.5 17h-13L12 5.5z"/>
+              </svg>
+              <span className="text-gray-900 font-bold text-lg tracking-tight">D-PLOG</span>
+            </button>
+
+            {/* Service Name Divider */}
+            {currentPage !== 'home' && (
+              <>
+                <div className="h-4 w-px bg-gray-300 hidden sm:block"></div>
+                <span className="text-gray-600 font-medium text-sm hidden sm:block">
+                  {currentPage === 'buffer' ? 'Buffer Dashboard' : 'Service'}
+                </span>
+              </>
+            )}
+          </div>
 
           {/* Desktop Nav - Hidden on Tablets/Mobile */}
           <nav className="hidden xl:flex items-center gap-2">
