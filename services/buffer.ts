@@ -1,5 +1,10 @@
 
-import type {\n  BufferProfile,\n  CreateUpdateOptions,\n  UpdateResponse,\n  UpdatesListResponse\n} from '../shared/buffer/types';
+import type {
+  BufferProfile,
+  CreateUpdateOptions,
+  UpdateResponse,
+  UpdatesListResponse
+} from '../shared/buffer/types';
 
 const API_BASE = "/api/buffer";
 
