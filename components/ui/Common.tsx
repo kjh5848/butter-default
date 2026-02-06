@@ -7,7 +7,8 @@ export const Button: React.FC<{
   className?: string;
   onClick?: () => void;
   icon?: React.ReactNode;
-}> = ({ variant = 'primary', children, className = '', onClick, icon }) => {
+  disabled?: boolean;
+}> = ({ variant = 'primary', children, className = '', onClick, icon, disabled }) => {
   const baseStyle = "inline-flex items-center justify-center font-medium rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
   
   const variants = {
@@ -20,7 +21,11 @@ export const Button: React.FC<{
   };
 
   return (
-    <button className={`${baseStyle} ${variants[variant]} ${className}`} onClick={onClick}>
+    <button 
+      className={`${baseStyle} ${variants[variant]} ${className}`} 
+      onClick={onClick}
+      disabled={disabled}
+    >
       {icon && <span className="mr-2">{icon}</span>}
       {children}
     </button>
