@@ -1,12 +1,86 @@
 
-import type {
-  BufferProfile,
-  CreateUpdateOptions,
-  UpdateResponse,
-  UpdatesListResponse
-} from '../shared/buffer/types';
+// Types based on https://buffer.com/developers/api
 
-const API_BASE = "/api/buffer";
+export interface BufferProfile {
+  avatar: string;
+  created_at: number;
+  default: boolean;
+  formatted_service: string; // e.g. "Twitter", "LinkedIn"
+  formatted_username: string; // e.g. "@username"
+  id: string;
+  schedules: Array<{
+    days: string[];
+    times: string[];
+  }>;
+  service: string;
+  service_id: string;
+  service_username: string;
+  statistics: {
+    followers: number;
+  };
+  timezone: string;
+  user_id: string;
+}
+
+export interface BufferMedia {
+  link?: string;
+  description?: string;
+  title?: string;
+  picture?: string; // URL
+  thumbnail?: string; // URL
+}
+
+export interface BufferUpdate {
+  id: string;
+  created_at: number;
+  day?: string;
+  due_at: number;
+  due_time?: string;
+  media?: BufferMedia;
+  profile_id: string;
+  profile_service: string;
+  sent_at?: number;
+  service_update_id?: string;
+  statistics?: {
+    clicks: number;
+    favorites: number;
+    mentions: number;
+    reach: number;
+    retweets: number;
+    likes?: number;
+    comments?: number;
+  };
+  status: 'buffer' | 'sent' | 'compliance';
+  text: string;
+  text_formatted: string;
+  user_id: string;
+  via: string;
+  service_link?: string; // Sometimes populated for sent updates
+}
+
+export interface CreateUpdateOptions {
+  profile_ids: string[];
+  text: string;
+  now?: boolean; // Send immediately
+  top?: boolean; // Add to top of queue
+  media?: BufferMedia;
+  attachment?: boolean;
+  scheduled_at?: string; // UTC date string
+}
+
+export interface UpdateResponse {
+    success: boolean;
+    buffer_count: number;
+    buffer_percentage: number;
+    updates: BufferUpdate[];
+}
+
+export interface UpdatesListResponse {
+    total: number;
+    updates: BufferUpdate[];
+}
+
+const API_BASE = "https://api.bufferapp.com/1";
 
 export class BufferService {
   private accessToken: string;
@@ -47,22 +121,22 @@ export class BufferService {
 
   // Get user info (useful for validating token)
   async getUser(): Promise<any> {
-    return this.request('/user');
+    return this.request('/user.json');
   }
 
   // Get connected social media profiles
   async getProfiles(): Promise<BufferProfile[]> {
-    return this.request<BufferProfile[]>('/profiles');
+    return this.request<BufferProfile[]>('/profiles.json');
   }
 
   // Get pending updates (scheduled/buffered)
   async getPendingUpdates(profileId: string, page = 1, count = 20): Promise<UpdatesListResponse> {
-    return this.request<UpdatesListResponse>(`/profiles/${profileId}/updates/pending?page=${page}&count=${count}`);
+    return this.request<UpdatesListResponse>(`/profiles/${profileId}/updates/pending.json?page=${page}&count=${count}`);
   }
 
   // Get sent updates history
   async getSentUpdates(profileId: string, page = 1, count = 20): Promise<UpdatesListResponse> {
-    return this.request<UpdatesListResponse>(`/profiles/${profileId}/updates/sent?page=${page}&count=${count}`);
+    return this.request<UpdatesListResponse>(`/profiles/${profileId}/updates/sent.json?page=${page}&count=${count}`);
   }
 
   // Create an update (Schedule or Send Now)
@@ -84,7 +158,7 @@ export class BufferService {
       if (options.media.thumbnail) formData.append('media[thumbnail]', options.media.thumbnail);
     }
 
-    return this.request<UpdateResponse>('/updates/create', {
+    return this.request<UpdateResponse>('/updates/create.json', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -95,7 +169,7 @@ export class BufferService {
   
   // Shuffle updates in the buffer
   async shuffleUpdates(profileId: string): Promise<any> {
-     return this.request(`/profiles/${profileId}/updates/shuffle`, {
+     return this.request(`/profiles/${profileId}/updates/shuffle.json`, {
          method: 'POST'
      });
   }

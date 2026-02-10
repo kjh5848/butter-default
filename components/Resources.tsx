@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { SectionContainer, Button, ParticleCanvas } from './ui/Common';
 import { USE_CASES, BLOGS } from '../constants';
-import { ArrowRight, ChevronLeft, ChevronRight, Apple, Cpu } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Apple, Cpu, MonitorPlay } from 'lucide-react';
 
 export const UseCases: React.FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -14,10 +15,10 @@ export const UseCases: React.FC = () => {
       <SectionContainer>
         <div className="flex flex-col md:flex-row justify-between items-end mb-12">
           <div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Built for developers<br/>for the agent-first era</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">사장님 유형별<br/>맞춤형 성장 전략</h2>
           </div>
           <p className="text-gray-600 max-w-md mb-2">
-            Google Antigravity is built for user trust, whether you're a professional developer, a hobbyist, or anyone in between.
+            예비 창업자부터 프랜차이즈 본사까지, D-PLOG는 사업 단계별 최적화된 솔루션을 제공합니다.
           </p>
         </div>
 
@@ -32,7 +33,7 @@ export const UseCases: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
                 <div className="text-white">
-                  <div className="inline-block px-3 py-1 bg-blue-600 rounded-full text-xs font-semibold mb-2">CASE STUDY</div>
+                  <div className="inline-block px-3 py-1 bg-blue-600 rounded-full text-xs font-semibold mb-2">USE CASE</div>
                   <h3 className="text-3xl font-bold">{USE_CASES[activeSlide].role}</h3>
                 </div>
               </div>
@@ -45,7 +46,7 @@ export const UseCases: React.FC = () => {
                 <p className="text-gray-600 text-lg leading-relaxed mb-6">
                   {USE_CASES[activeSlide].description}
                 </p>
-                <Button variant="text" className="text-blue-600 font-medium">View full case study</Button>
+                <Button variant="text" className="text-blue-600 font-medium">활용 사례 전체보기</Button>
               </div>
 
               {/* Controls */}
@@ -74,18 +75,18 @@ export const TrySolutions: React.FC = () => {
              <ParticleCanvas theme="light" />
           </div>
           <div className="relative z-10">
-            <span className="inline-block px-3 py-1 bg-white/80 backdrop-blur rounded-md border border-gray-200 text-xs font-semibold text-gray-500 mb-4">AVAILABLE NOW</span>
-            <h3 className="text-3xl font-bold text-gray-900 mb-2">For Developers</h3>
-            <p className="text-xl text-gray-500 mb-8">Achieve new heights</p>
-            <Button variant="primary">Download</Button>
+            <span className="inline-block px-3 py-1 bg-white/80 backdrop-blur rounded-md border border-gray-200 text-xs font-semibold text-gray-500 mb-4">소상공인용</span>
+            <h3 className="text-3xl font-bold text-gray-900 mb-2">일반 사장님</h3>
+            <p className="text-xl text-gray-500 mb-8">매출 상승을 위한 첫걸음</p>
+            <Button variant="primary">무료로 시작하기</Button>
           </div>
         </div>
         <div className="relative flex flex-col items-center justify-center p-12 text-center overflow-hidden bg-white">
            <div className="relative z-10">
-            <span className="inline-block px-3 py-1 bg-gray-100 rounded-md text-xs font-semibold text-gray-500 mb-4">COMING SOON</span>
-            <h3 className="text-3xl font-bold text-gray-900 mb-2">For Organizations</h3>
-            <p className="text-xl text-gray-500 mb-8">Level up your entire team</p>
-            <Button variant="secondary">Notify me</Button>
+            <span className="inline-block px-3 py-1 bg-gray-100 rounded-md text-xs font-semibold text-gray-500 mb-4">기관 / 기업용</span>
+            <h3 className="text-3xl font-bold text-gray-900 mb-2">엔터프라이즈</h3>
+            <p className="text-xl text-gray-500 mb-8">프랜차이즈 및 지자체 전용 솔루션</p>
+            <Button variant="secondary">도입 문의하기</Button>
           </div>
         </div>
       </div>
@@ -98,8 +99,8 @@ export const LatestBlogs: React.FC = () => {
     <section id="blog" className="py-24 bg-white">
       <SectionContainer>
         <div className="flex justify-between items-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900">Latest Blogs</h2>
-          <Button variant="secondary">View all posts</Button>
+          <h2 className="text-3xl font-bold text-gray-900">최신 인사이트</h2>
+          <Button variant="secondary">블로그 보러가기</Button>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -131,18 +132,18 @@ export const DownloadSection: React.FC = () => {
         </div>
         
         <div className="relative z-10 px-8 md:px-24 py-12 w-full">
-          <h2 className="text-4xl md:text-6xl font-bold mb-8 max-w-2xl">
-            Download<br/>Google Antigravity<br/>for MacOS
+          <h2 className="text-4xl md:text-6xl font-bold mb-8 max-w-2xl leading-tight">
+            D-PLOG와 함께<br/>위기를 기회로<br/>바꾸세요
           </h2>
           
           <div className="flex flex-col sm:flex-row gap-4">
             <button className="flex items-center justify-center gap-3 bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-gray-200 transition-colors">
               <Apple className="w-5 h-5" />
-              Apple Silicon
+              App Store
             </button>
             <button className="flex items-center justify-center gap-3 bg-transparent border border-white/20 text-white px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition-colors backdrop-blur-sm">
-              <Cpu className="w-5 h-5" />
-              Intel Chip
+              <MonitorPlay className="w-5 h-5" />
+              Web Console
             </button>
           </div>
         </div>

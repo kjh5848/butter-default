@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { SectionContainer, Button } from './ui/Common';
 import { FEATURES, ICONS_LIST } from '../constants';
@@ -26,8 +27,8 @@ export const VideoSection: React.FC = () => {
           </video>
           
           <div className="absolute bottom-8 left-8 text-white z-20 max-w-lg">
-            <h3 className="text-2xl font-bold mb-2">See Antigravity in action</h3>
-            <p className="text-gray-200">Watch how agentic workflows transform your daily development tasks.</p>
+            <h3 className="text-2xl font-bold mb-2">AI 에이전트가 만드는 매출의 변화</h3>
+            <p className="text-gray-200">원인 분석에서 마케팅 실행까지, D-PLOG의 10분 루틴을 확인하세요.</p>
           </div>
         </div>
       </SectionContainer>
@@ -41,10 +42,11 @@ export const AgentFirst: React.FC = () => {
       <SectionContainer className="text-center">
         <div className="mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-            Google Antigravity is <span className="text-blue-600">Agent-First</span>
+            D-PLOG is <span className="text-blue-600">Action-First</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Moving beyond simple autocompletion. Our platform integrates AI agents deeply into every layer of the stack.
+            단순한 조회(Dashboard)에서 벗어나 실질적인 산출물(Artifacts)을 제공합니다. <br/>
+            플랫폼 알고리즘과 고비용 대행사에 의존하지 않는, 데이터 주권과 자생력을 키우세요.
           </p>
         </div>
 
@@ -88,7 +90,7 @@ export const FeatureExplorer: React.FC = () => {
                 </p>
                 <div className="pt-4">
                   <Button variant="text" className="text-lg font-semibold flex items-center gap-2">
-                    Learn more <Play className="w-4 h-4 fill-current" />
+                    자세히 보기 <Play className="w-4 h-4 fill-current" />
                   </Button>
                 </div>
               </div>
